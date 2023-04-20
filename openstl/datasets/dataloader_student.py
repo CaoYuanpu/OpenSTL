@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms as T
 
-from openstl.datasets.utils import create_loader
+# from openstl.datasets.utils import create_loader
 
 class Student(Dataset):
     def __init__(self, root, is_train=True, n_frames_input=11, n_frames_output=11):
@@ -26,7 +26,7 @@ class Student(Dataset):
             labeled_videos = os.listdir(os.path.join(self.root, 'train'))
 
             for v in labeled_videos:
-                if 'video' in v:
+                if 'video' in v and '272' not in v:
                     video_dir_lst.append(os.path.join(self.root, 'train', v))
                 
             unlabeled_videos = os.listdir(os.path.join(self.root, 'unlabeled'))
@@ -46,7 +46,7 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            print(os.path.join(video_dir, f'image_{i}.png'))
+            # print(os.path.join(video_dir, f'image_{i}.png'))
             x = self.transform(x)
             X.append(x)
         X = torch.stack(X, dim=0)
@@ -93,6 +93,10 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
 
 if __name__ == '__main__':
     root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
-    dataset = Student(root=root, is_train=True)
-    for i, (x, y) in enumerate(dataset):
-        print(i, x.shape, y.shape)
+    # dataset = Student(root=root, is_train=True)
+    # for i, (x, y) in enumerate(dataset):
+    #     print(i, x.shape, y.shape)
+    x = Image.open(os.path.join(root, 'train', 'video_272', 'image_3.png'))
+    print(x)
+    t = T.Compose([T.ToTensor()])
+    x = t(x)
