@@ -18,7 +18,7 @@ class Student(Dataset):
         print
         self.n_frames_input = n_frames_input
         self.n_frames_output = n_frames_output
-        self.transform = T.ToTensor()
+        self.transform = T.Compose([T.ToTensor()])
     
     def _load_dataset_folder(self):
         video_dir_lst = []
@@ -54,7 +54,6 @@ class Student(Dataset):
             except:
                 print(os.path.join(video_dir, f'image_{i}.png'))
                 print(x)
-                input()
             X.append(x)
         X = torch.stack(X, dim=0)
 
