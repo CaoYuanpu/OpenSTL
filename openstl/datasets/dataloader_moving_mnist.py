@@ -182,4 +182,6 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
 if __name__ == '__main__':
     dataloader_train, dataloader_vali, dataloader_test = load_data(16, 4, './data', num_workers=4, pre_seq_length=10, aft_seq_length=10, distributed=False)
     
-    
+    for x, y in dataloader_train:
+        print(x.shape, y.shape)
+        input()
