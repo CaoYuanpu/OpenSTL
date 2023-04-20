@@ -17,7 +17,7 @@ def load_data(dataname, batch_size, val_batch_size, num_workers, data_root, dist
                          pre_seq_length, aft_seq_length, distributed=distributed)
     elif dataname == 'student':
         from .dataloader_student import load_data
-        return load_data(batch_size, val_batch_size, data_root, num_worker=1,
+        return load_data(batch_size, val_batch_size, data_root, 1,
                          pre_seq_length, aft_seq_length, distributed=distributed)
     elif dataname == 'taxibj':
         from .dataloader_taxibj import load_data
