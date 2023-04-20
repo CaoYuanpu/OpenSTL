@@ -43,7 +43,8 @@ class MovingMNIST(Dataset):
                 self.dataset = load_fixed_set(root)
         self.length = int(1e4) if self.dataset is None else self.dataset.shape[1]
         print(f'Training: {self.is_train}')
-        print(self.dataset.shape)
+        if self.dataset:
+            print(self.dataset.shape)
         print(self.length)
         input()
         self.num_objects = num_objects
