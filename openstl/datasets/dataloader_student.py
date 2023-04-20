@@ -67,8 +67,8 @@ class Student(Dataset):
 def load_data(batch_size, val_batch_size, data_root, num_workers=4,
               pre_seq_length=11, aft_seq_length=11, distributed=False):
 
-    train_set = Student(root=root, is_train=True)
-    test_set = Student(root=root, is_train=False)
+    train_set = Student(root=data_root, is_train=True)
+    test_set = Student(root=data_root, is_train=False)
 
     dataloader_train = create_loader(train_set,
                                      batch_size=batch_size,
