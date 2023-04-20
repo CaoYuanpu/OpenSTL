@@ -19,6 +19,8 @@ class Student(Dataset):
         self.n_frames_input = n_frames_input
         self.n_frames_output = n_frames_output
         self.transform = T.Compose([T.ToTensor()])
+        self.mean = 0
+        self.std = 1
     
     def _load_dataset_folder(self):
         corrupt = ['video_13688', 'video_14125', 'video_13268', 'video_13534']
@@ -47,14 +49,10 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             # x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            try:
-                x = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
-                x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
-                x = self.transform(x)
-                # x = torch.permute(x, (1, 2, 0))
-            except:
-                print(os.path.join(video_dir, f'image_{i}.png'))
-                print(x)
+            x = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+            x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
+            x = self.transform(x)
+            # x = torch.permute(x, (1, 2, 0))
             X.append(x)
         X = torch.stack(X, dim=0)
 
@@ -63,13 +61,9 @@ class Student(Dataset):
 
             # y = Image.open(os.path.join(video_dir, f'image_{i}.png'))
             # y = self.transform(y)
-            try:
-                y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
-                y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
-                y = self.transform(y)
-            except:
-                print(os.path.join(video_dir, f'image_{i}.png'))
-                print(y)
+            y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+            y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
+            y = self.transform(y)
             # y = torch.permute(y, (1, 2, 0))
             Y.append(y)
         Y = torch.stack(Y, dim=0)
