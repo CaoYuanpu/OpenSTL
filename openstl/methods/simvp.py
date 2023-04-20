@@ -61,9 +61,6 @@ class SimVP(Base_method):
 
         end = time.time()
         for batch_x, batch_y in train_pbar:
-            print(batch_x.shape)
-            print(batch_y.shape)
-            input()
             data_time_m.update(time.time() - end)
             self.model_optim.zero_grad()
 
