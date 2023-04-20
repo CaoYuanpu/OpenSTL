@@ -46,6 +46,7 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+            print(os.path.join(video_dir, f'image_{i}.png'))
             x = self.transform(x)
             X.append(x)
         X = torch.stack(X, dim=0)
