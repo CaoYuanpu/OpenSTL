@@ -3,7 +3,7 @@ import os
 from PIL import Image
 import random
 import torch
-
+import cv2
 from torch.utils.data import Dataset
 from torchvision import transforms as T
 
@@ -45,9 +45,12 @@ class Student(Dataset):
         X = []
         for i in range(self.n_frames_input):
 
-            x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+            # x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+            x = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+            x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
             try:
                 x = self.transform(x)
+                x = torch.permute(x, (1, 2, 0))
             except:
                 print(os.path.join(video_dir, f'image_{i}.png'))
                 print(x)
@@ -58,12 +61,15 @@ class Student(Dataset):
         Y = []
         for i in range(self.n_frames_input, self.n_frames_input+self.n_frames_output):
 
-            y = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+            # y = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+            # y = self.transform(y)
+            y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+            y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
             y = self.transform(y)
+            y = torch.permute(y, (1, 2, 0))
             Y.append(y)
         Y = torch.stack(Y, dim=0)
-        
-        
+
         return X, Y
         
     def __len__(self):
@@ -101,7 +107,10 @@ if __name__ == '__main__':
     # dataset = Student(root=root, is_train=True)
     # for i, (x, y) in enumerate(dataset):
     #     print(i, x.shape, y.shape)
-    x = Image.open(os.path.join(root, 'train', 'video_272', 'image_3.png'))
-
-    x = torch.from_numpy(x)
-    print(x.dtype)
+    import cv2
+    x = cv2.imread(os.path.join(root, 'train', 'video_272', 'image_3.png'))
+    x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
+    transform = T.Compose([T.ToTensor()])
+    x = transform(x)
+    x = torch.permute(x, (1, 2, 0))
+    print(x.shape, type(x), x.min(), x.max())
