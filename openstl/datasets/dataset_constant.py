@@ -5,6 +5,12 @@ dataset_parameters = {
         'aft_seq_length': 10,
         'total_length': 20
     },
+    'student': {
+        'in_shape': [11, 3, 160, 240],
+        'pre_seq_length': 11,
+        'aft_seq_length': 11,
+        'total_length': 22
+    },
     'taxibj': {
         'in_shape': [4, 2, 32, 32],
         'pre_seq_length': 4,
