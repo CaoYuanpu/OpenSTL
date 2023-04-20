@@ -21,6 +21,7 @@ class Student(Dataset):
         self.transform = T.Compose([T.ToTensor()])
     
     def _load_dataset_folder(self):
+        corrupt = ['video_13688', 'video_14125']
         video_dir_lst = []
         if self.is_train:
             labeled_videos = os.listdir(os.path.join(self.root, 'train'))
@@ -32,7 +33,7 @@ class Student(Dataset):
             unlabeled_videos = os.listdir(os.path.join(self.root, 'unlabeled'))
 
             for v in unlabeled_videos:
-                if 'video' in v and '14125' not in v:
+                if 'video' in v and v not in corrupt:
                     video_dir_lst.append(os.path.join(self.root, 'unlabeled', v))
         else:
             videos = os.listdir(os.path.join(self.root, 'val'))
