@@ -26,7 +26,7 @@ class Student(Dataset):
             labeled_videos = os.listdir(os.path.join(self.root, 'train'))
 
             for v in labeled_videos:
-                if 'video' in v and '272' not in v:
+                if 'video' in v:
                     video_dir_lst.append(os.path.join(self.root, 'train', v))
                 
             unlabeled_videos = os.listdir(os.path.join(self.root, 'unlabeled'))
@@ -46,7 +46,8 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            # print(os.path.join(video_dir, f'image_{i}.png'))
+            print(os.path.join(video_dir, f'image_{i}.png'))
+            print(x)
             x = self.transform(x)
             X.append(x)
         X = torch.stack(X, dim=0)
