@@ -23,21 +23,21 @@ class Student(Dataset):
     def _load_dataset_folder(self):
         video_dir_lst = []
         if self.is_train:
-            labeled_videos = os.listdir(os.path.join(root, 'train'))
+            labeled_videos = os.listdir(os.path.join(self.root, 'train'))
 
             for v in labeled_videos:
                 if 'video' in v:
-                    video_dir_lst.append(os.path.join(root, 'train', v))
+                    video_dir_lst.append(os.path.join(self.root, 'train', v))
                 
-            unlabeled_videos = os.listdir(os.path.join(root, 'unlabeled'))
+            unlabeled_videos = os.listdir(os.path.join(self.root, 'unlabeled'))
 
             for v in unlabeled_videos:
                 if 'video' in v:
-                    video_dir_lst.append(os.path.join(root, 'unlabeled', v))
+                    video_dir_lst.append(os.path.join(self.root, 'unlabeled', v))
         else:
-            videos = os.listdir(os.path.join(root, 'val'))
+            videos = os.listdir(os.path.join(self.root, 'val'))
             for v in videos:
-                video_dir_lst.append(os.path.join(root, 'val', v))
+                video_dir_lst.append(os.path.join(self.root, 'val', v))
         return video_dir_lst
 
     def __getitem__(self, idx):
