@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms as T
 
-# from openstl.datasets.utils import create_loader
+from openstl.datasets.utils import create_loader
 
 class Student(Dataset):
     def __init__(self, root, is_train=True, n_frames_input=11, n_frames_output=11):
