@@ -42,11 +42,6 @@ class MovingMNIST(Dataset):
             else:
                 self.dataset = load_fixed_set(root)
         self.length = int(1e4) if self.dataset is None else self.dataset.shape[1]
-        print(f'Training: {self.is_train}')
-        if self.dataset is not None:
-            print(self.dataset.shape)
-        print(self.length)
-        input()
         self.num_objects = num_objects
         self.n_frames_input = n_frames_input
         self.n_frames_output = n_frames_output
@@ -183,3 +178,8 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
                                     num_workers=num_workers, distributed=distributed)
 
     return dataloader_train, dataloader_vali, dataloader_test
+
+if __name__ == '__main__':
+    dataloader_train, dataloader_vali, dataloader_test = load_data(16, 4, './data', num_workers=4, pre_seq_length=10, aft_seq_length=10, distributed=False)
+    
+    
