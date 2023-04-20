@@ -184,4 +184,5 @@ if __name__ == '__main__':
     
     for x, y in dataloader_train:
         print(x.shape, y.shape)
+        print(x.min(), x.max(), y.min(), y.max())
         input()
