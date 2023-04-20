@@ -32,7 +32,7 @@ class Student(Dataset):
             unlabeled_videos = os.listdir(os.path.join(self.root, 'unlabeled'))
 
             for v in unlabeled_videos:
-                if 'video' in v:
+                if 'video' in v and '14125' not in v:
                     video_dir_lst.append(os.path.join(self.root, 'unlabeled', v))
         else:
             videos = os.listdir(os.path.join(self.root, 'val'))
@@ -106,7 +106,8 @@ if __name__ == '__main__':
     # for i, (x, y) in enumerate(dataset):
     #     print(i, x.shape, y.shape)
     import cv2
-    x = cv2.imread(os.path.join(root, 'train', 'video_272', 'image_3.png'))
+    x = cv2.imread(os.path.join(root, 'unlabeled', 'video_14125', 'image_9.png'))
+    print(x)
     x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
     transform = T.Compose([T.ToTensor()])
     x = transform(x)
