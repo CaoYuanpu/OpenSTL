@@ -93,7 +93,8 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
     return dataloader_train, dataloader_vali, dataloader_test
 
 if __name__ == '__main__':
-    root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
+    # root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
+    root = '/home/ymc5533/dl/Dataset_Student'
     # dataset = Student(root=root, is_train=True)
     # for i, (x, y) in enumerate(dataset):
     #     print(i, x.shape, y.shape)
