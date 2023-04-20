@@ -68,7 +68,6 @@ class Student(Dataset):
             # y = torch.permute(y, (1, 2, 0))
             Y.append(y)
         Y = torch.stack(Y, dim=0)
-        print(X.shape, Y.shape)
         return X, Y
         
     def __len__(self):
