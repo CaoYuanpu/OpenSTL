@@ -50,7 +50,7 @@ class Student(Dataset):
             x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
             try:
                 x = self.transform(x)
-                x = torch.permute(x, (1, 2, 0))
+                # x = torch.permute(x, (1, 2, 0))
             except:
                 print(os.path.join(video_dir, f'image_{i}.png'))
                 print(x)
@@ -65,7 +65,7 @@ class Student(Dataset):
             y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
             y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
             y = self.transform(y)
-            y = torch.permute(y, (1, 2, 0))
+            # y = torch.permute(y, (1, 2, 0))
             Y.append(y)
         Y = torch.stack(Y, dim=0)
         print(X.shape, Y.shape)
