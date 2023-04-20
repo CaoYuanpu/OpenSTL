@@ -18,7 +18,7 @@ class Student(Dataset):
         print
         self.n_frames_input = n_frames_input
         self.n_frames_output = n_frames_output
-        self.transform = T.Compose([T.ToTensor()])
+        self.transform = T.ToTensor()
     
     def _load_dataset_folder(self):
         video_dir_lst = []
@@ -46,9 +46,12 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            print(os.path.join(video_dir, f'image_{i}.png'))
-            print(x)
-            x = self.transform(x)
+            try:
+                x = self.transform(x)
+            except:
+                print(os.path.join(video_dir, f'image_{i}.png'))
+                print(x)
+                input()
             X.append(x)
         X = torch.stack(X, dim=0)
 
@@ -93,12 +96,12 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
     return dataloader_train, dataloader_vali, dataloader_test
 
 if __name__ == '__main__':
-    # root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
-    root = '/home/ymc5533/dl/Dataset_Student'
+    root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
+    # root = '/home/ymc5533/dl/Dataset_Student'
     # dataset = Student(root=root, is_train=True)
     # for i, (x, y) in enumerate(dataset):
     #     print(i, x.shape, y.shape)
     x = Image.open(os.path.join(root, 'train', 'video_272', 'image_3.png'))
-    print(x)
-    t = T.Compose([T.ToTensor()])
-    x = t(x)
+
+    x = torch.from_numpy(x)
+    print(x.dtype)
