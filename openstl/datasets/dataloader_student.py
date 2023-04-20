@@ -46,9 +46,9 @@ class Student(Dataset):
         for i in range(self.n_frames_input):
 
             # x = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            x = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
-            x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
             try:
+                x = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+                x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
                 x = self.transform(x)
                 # x = torch.permute(x, (1, 2, 0))
             except:
