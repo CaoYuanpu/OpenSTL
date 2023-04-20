@@ -145,6 +145,8 @@ class MovingMNIST(Dataset):
 
         output = torch.from_numpy(output / 255.0).contiguous().float()
         input = torch.from_numpy(input / 255.0).contiguous().float()
+        print(input.shape, output.shape)
+        input()
         return input, output
 
     def __len__(self):
