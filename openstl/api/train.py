@@ -59,7 +59,7 @@ class BaseExperiment(object):
                 torch.cuda.set_device(self._rank)
                 print(f'Use distributed mode with GPUs: local rank={self._rank}')
             else:
-                device = torch.device('cuda:0')
+                device = torch.device(args.device)
                 print('Use non-distributed mode with GPU:', device)
         else:
             self._use_gpu = False
