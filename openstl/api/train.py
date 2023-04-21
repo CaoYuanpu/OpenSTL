@@ -327,11 +327,11 @@ class BaseExperiment(object):
         self.call_hook('before_val_epoch')
         inputs, trues, preds = self.method.test_one_epoch(self, self.test_loader)
         with open('inputs.npy', 'wb') as f:
-            np.save(f, inputs)
+            np.save(f, inputs[:10])
         with open('trues.npy', 'wb') as f:
-            np.save(f, trues)
+            np.save(f, trues[:10])
         with open('preds.npy', 'wb') as f:
-            np.save(f, preds)
+            np.save(f, preds[:10])
         input()
         self.call_hook('after_val_epoch')
 
