@@ -69,7 +69,7 @@ class PredRNN(Base_method):
         return dict(zip(['inputs', 'preds', 'trues'],
                         [batch_x, pred_y, batch_y]))
 
-    def train_one_epoch(self, runner, train_loader, epoch, num_updates, loss_mean, eta, **kwargs):
+    def train_one_epoch(self, runner, train_loader, epoch, num_updates, loss_mean=0., eta=1., **kwargs):
         losses_m = AverageMeter()
         self.model.train()
         if self.by_epoch:
