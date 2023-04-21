@@ -325,14 +325,8 @@ class BaseExperiment(object):
                 self.method.model.load_state_dict(torch.load(best_model_path))
 
         self.call_hook('before_val_epoch')
-        inputs, trues, preds = self.method.test_one_epoch(self, self.test_loader)
-        with open('inputs.npy', 'wb') as f:
-            np.save(f, inputs[:10])
-        with open('trues.npy', 'wb') as f:
-            np.save(f, trues[:10])
-        with open('preds.npy', 'wb') as f:
-            np.save(f, preds[:10])
-        input()
+        inputs, preds, trues = self.method.test_one_epoch(self, self.test_loader)
+
         self.call_hook('after_val_epoch')
 
         if 'weather' in self.args.dataname:
