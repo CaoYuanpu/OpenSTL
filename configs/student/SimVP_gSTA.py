@@ -20,7 +20,7 @@ spatio_kernel_dec = 3
 model_type = 'gSTA'
 hid_S = 32
 hid_T = 256
-N_T = 8
+N_T = 4
 N_S = 2
 # training
 lr = 5e-4
