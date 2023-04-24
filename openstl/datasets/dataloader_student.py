@@ -44,9 +44,13 @@ class Student(Dataset):
                 for v in videos:
                     video_dir_lst.append(os.path.join(self.root, 'val', v))
             else:
-                videos = os.listdir(os.path.join(self.root, 'hidden'))
-                for v in videos:
-                    video_dir_lst.append(os.path.join(self.root, 'hidden', v))
+                
+                for i in range(15000, 17000):
+                    video_dir_lst.append(os.path.join(self.root, 'hidden', 'video_'+str(i)))
+                
+                # videos = os.listdir(os.path.join(self.root, 'hidden'))
+                # for v in videos:
+                #     video_dir_lst.append(os.path.join(self.root, 'hidden', v))
         for dir_ in video_dir_lst:
             print(dir_)
         input()
