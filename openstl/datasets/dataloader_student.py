@@ -10,9 +10,10 @@ from torchvision import transforms as T
 from openstl.datasets.utils import create_loader
 
 class Student(Dataset):
-    def __init__(self, root, is_train=True, n_frames_input=11, n_frames_output=11):
+    def __init__(self, root, is_train=True, is_test=False, n_frames_input=11, n_frames_output=11):
         super(Student, self).__init__()
         self.is_train = is_train
+        self.is_test = is_test
         self.root = root
         self.video_dir_lst = self._load_dataset_folder()
         print
@@ -38,9 +39,14 @@ class Student(Dataset):
                 if 'video' in v and v not in corrupt:
                     video_dir_lst.append(os.path.join(self.root, 'unlabeled', v))
         else:
-            videos = os.listdir(os.path.join(self.root, 'val'))
-            for v in videos:
-                video_dir_lst.append(os.path.join(self.root, 'val', v))
+            if not self.is_test:
+                videos = os.listdir(os.path.join(self.root, 'val'))
+                for v in videos:
+                    video_dir_lst.append(os.path.join(self.root, 'val', v))
+            else:
+                videos = os.listdir(os.path.join(self.root, 'hidden'))
+                for v in videos:
+                    video_dir_lst.append(os.path.join(self.root, 'hidden', v))
         return video_dir_lst
 
     def __getitem__(self, idx):
@@ -57,16 +63,19 @@ class Student(Dataset):
         X = torch.stack(X, dim=0)
 
         Y = []
-        for i in range(self.n_frames_input, self.n_frames_input+self.n_frames_output):
+        if not self.is_test:
+            for i in range(self.n_frames_input, self.n_frames_input+self.n_frames_output):
 
-            # y = Image.open(os.path.join(video_dir, f'image_{i}.png'))
-            # y = self.transform(y)
-            y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
-            y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
-            y = self.transform(y)
-            # y = torch.permute(y, (1, 2, 0))
-            Y.append(y)
-        Y = torch.stack(Y, dim=0)
+                # y = Image.open(os.path.join(video_dir, f'image_{i}.png'))
+                # y = self.transform(y)
+                y = cv2.imread(os.path.join(video_dir, f'image_{i}.png'))
+                y = cv2.cvtColor(y, cv2.COLOR_BGR2RGB)
+                y = self.transform(y)
+                # y = torch.permute(y, (1, 2, 0))
+                Y.append(y)
+            Y = torch.stack(Y, dim=0)
+        else:
+            Y = torch.zeros_like(X)
         return X, Y
         
     def __len__(self):
@@ -76,7 +85,8 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
               pre_seq_length=11, aft_seq_length=11, distributed=False):
 
     train_set = Student(root=data_root, is_train=True)
-    test_set = Student(root=data_root, is_train=False)
+    val_set = Student(root=data_root, is_train=False)
+    test_set = Student(root=data_root, is_train=False, is_test=True)
 
     dataloader_train = create_loader(train_set,
                                      batch_size=batch_size,
@@ -84,7 +94,7 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
                                      pin_memory=True, drop_last=True,
                                      num_workers=num_workers, distributed=distributed)
     
-    dataloader_vali = create_loader(test_set,
+    dataloader_vali = create_loader(val_set,
                                     batch_size=val_batch_size,
                                     shuffle=False, is_training=False,
                                     pin_memory=True, drop_last=True,
@@ -99,14 +109,23 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
     return dataloader_train, dataloader_vali, dataloader_test
 
 if __name__ == '__main__':
-    # root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
-    root = '/home/ymc5533/dl/Dataset_Student'
+    root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
+    # root = '/home/ymc5533/dl/Dataset_Student'
     # dataset = Student(root=root, is_train=True)
     # for i, (x, y) in enumerate(dataset):
     #     print(i, x.shape, y.shape)
     import cv2
     x = cv2.imread(os.path.join(root, 'unlabeled', 'video_14124', 'image_9.png'))
+    x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
+    transform = T.Compose([T.ToTensor()])
+    x = transform(x)
     print(x.shape)
+    import matplotlib.pyplot as plt
+    fig = plt.figure(figsize=(10, 6))
+    ax_true = plt.subplot(1, 2, 1)
+    true = x.cpu().numpy().transpose(1, 2, 0)
+    ax_true.imshow(true)
+    plt.show()
     # x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
     # transform = T.Compose([T.ToTensor()])
     # x = transform(x)
