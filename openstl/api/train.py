@@ -330,10 +330,14 @@ class BaseExperiment(object):
         #     np.save(f, inputs[:20])
         # with open('trues.npy', 'wb') as f:
         #     np.save(f, trues[:20])
-        with open('pred_hidden.npy', 'wb') as f:
-            preds = preds[:, -1, :, :, :]
-            print(preds.shape)
-            np.save(f, preds)
+        preds = preds[:, -1, :, :, :]
+        for i in range(20):
+            print(i*100, (i+1)*100)
+            preds_batch = preds[i*100:(i+1)*100, :, :, :]
+            with open(f'pred_hidden/{i}.npy', 'wb') as f:
+                print(preds_batch.shape)
+                np.save(f, preds_batch)
+                print()
         print('saved')
         input()
         self.call_hook('after_val_epoch')
