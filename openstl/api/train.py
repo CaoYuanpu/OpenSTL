@@ -330,9 +330,9 @@ class BaseExperiment(object):
         #     np.save(f, inputs[:20])
         # with open('trues.npy', 'wb') as f:
         #     np.save(f, trues[:20])
-        with open('preds.npy', 'wb') as f:
+        with open('pred_hidden.npy', 'wb') as f:
+            preds = preds[:, -1, :, :, :]
             print(preds.shape)
-            input()
             np.save(f, preds)
         print('saved')
         input()
