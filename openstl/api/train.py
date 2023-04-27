@@ -331,10 +331,11 @@ class BaseExperiment(object):
         # with open('trues.npy', 'wb') as f:
         #     np.save(f, trues[:20])
         preds = preds[:, -1, :, :, :]
-        for i in range(20):
+        print(preds.shape)
+        for i in range(10):
             print(i*100, (i+1)*100)
             preds_batch = preds[i*100:(i+1)*100, :, :, :]
-            with open(f'pred_hidden/{i}.npy', 'wb') as f:
+            with open(f'val/{i}.npy', 'wb') as f:
                 print(preds_batch.shape)
                 np.save(f, preds_batch)
                 print()
