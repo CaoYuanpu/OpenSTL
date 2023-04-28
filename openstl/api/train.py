@@ -337,11 +337,11 @@ class BaseExperiment(object):
             print(i*100, (i+1)*100)
             preds_batch = preds[i*100:(i+1)*100, :, :, :]
             trues_batch = trues[i*100:(i+1)*100, :, :, :]
-            with open(f'val/pred_{i}.npy', 'wb') as f:
+            with open(f'val2/pred_{i}.npy', 'wb') as f:
                 print(preds_batch.shape)
                 np.save(f, preds_batch)
                 print()
-            with open(f'val/true_{i}.npy', 'wb') as f:
+            with open(f'val2/true_{i}.npy', 'wb') as f:
                 print(trues_batch.shape)
                 np.save(f, trues_batch)
                 print()
