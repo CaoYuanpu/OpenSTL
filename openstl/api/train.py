@@ -318,7 +318,7 @@ class BaseExperiment(object):
 
     def test(self):
         if self.args.test:
-            best_model_path = osp.join(self.path, 'checkpoint.pth')
+            best_model_path = osp.join(self.path, 'checkpoints', 'latest.pth')
             if self._dist:
                 self.method.model.module.load_state_dict(torch.load(best_model_path))
             else:
