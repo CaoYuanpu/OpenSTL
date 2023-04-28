@@ -320,9 +320,9 @@ class BaseExperiment(object):
         if self.args.test:
             best_model_path = osp.join(self.path, 'checkpoints', 'latest.pth')
             if self._dist:
-                self.method.model.module.load_state_dict(torch.load(best_model_path))
+                self.method.model.module.load_state_dict(torch.load(best_model_path)['state_dict'])
             else:
-                self.method.model.load_state_dict(torch.load(best_model_path))
+                self.method.model.load_state_dict(torch.load(best_model_path)['state_dict'])
 
         self.call_hook('before_val_epoch')
         inputs, preds, trues = self.method.test_one_epoch(self, self.test_loader)
