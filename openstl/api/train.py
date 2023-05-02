@@ -323,7 +323,10 @@ class BaseExperiment(object):
                 self.method.model.module.load_state_dict(torch.load(best_model_path)['state_dict'])
             else:
                 self.method.model.load_state_dict(torch.load(best_model_path)['state_dict'])
-
+        model = self.method.model
+        n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        print(n_parameters)
+        input()
         self.call_hook('before_val_epoch')
         inputs, preds, trues = self.method.test_one_epoch(self, self.test_loader)
         # with open('inputs.npy', 'wb') as f:
