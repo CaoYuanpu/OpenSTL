@@ -53,9 +53,7 @@ class Student(Dataset):
                 # videos = os.listdir(os.path.join(self.root, 'hidden'))
                 # for v in videos:
                 #     video_dir_lst.append(os.path.join(self.root, 'hidden', v))
-        for dir_ in video_dir_lst:
-            print(dir_)
-        input()
+
         return video_dir_lst
 
     def __getitem__(self, idx):
