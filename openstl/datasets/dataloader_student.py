@@ -117,26 +117,3 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
 
     return dataloader_train, dataloader_vali, dataloader_test
 
-if __name__ == '__main__':
-    root = '/Users/new/Desktop/course/2023spring/DL/project/Dataset_Student'
-    # root = '/home/ymc5533/dl/Dataset_Student'
-    # dataset = Student(root=root, is_train=True)
-    # for i, (x, y) in enumerate(dataset):
-    #     print(i, x.shape, y.shape)
-    import cv2
-    x = cv2.imread(os.path.join(root, 'unlabeled', 'video_14124', 'image_9.png'))
-    x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
-    transform = T.Compose([T.ToTensor()])
-    x = transform(x)
-    print(x.shape)
-    import matplotlib.pyplot as plt
-    fig = plt.figure(figsize=(10, 6))
-    ax_true = plt.subplot(1, 2, 1)
-    true = x.cpu().numpy().transpose(1, 2, 0)
-    ax_true.imshow(true)
-    plt.show()
-    # x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
-    # transform = T.Compose([T.ToTensor()])
-    # x = transform(x)
-    # x = torch.permute(x, (1, 2, 0))
-    # print(x.shape, type(x), x.min(), x.max())

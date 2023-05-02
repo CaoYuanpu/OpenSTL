@@ -324,47 +324,33 @@ class BaseExperiment(object):
             else:
                 self.method.model.load_state_dict(torch.load(best_model_path)['state_dict'])
         model = self.method.model
-        n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
-        print(n_parameters)
-        input()
         self.call_hook('before_val_epoch')
         inputs, preds, trues = self.method.test_one_epoch(self, self.test_loader)
-        # with open('inputs.npy', 'wb') as f:
-        #     np.save(f, inputs[:20])
-        # with open('trues.npy', 'wb') as f:
-        #     np.save(f, trues[:20])
         preds = preds[:, -1, :, :, :]
-        # trues = trues[:, -1, :, :, :]
-        print(preds.shape)
-        for i in range(20):
-            print(i*100, (i+1)*100)
-            preds_batch = preds[i*100:(i+1)*100, :, :, :]
-            with open(f'pred_hidden2/{i}.npy', 'wb') as f:
-                print(preds_batch.shape)
-                np.save(f, preds_batch)
-                print()
+        print('pred shape:', preds.shape)
+        with open(f'pred_hidden.npy', 'wb') as f:
+            np.save(f, preds)
+
             # with open(f'val2/true_{i}.npy', 'wb') as f:
             #     print(trues_batch.shape)
             #     np.save(f, trues_batch)
             #     print()
-        print('saved')
-        input()
-        self.call_hook('after_val_epoch')
+        # self.call_hook('after_val_epoch')
 
-        if 'weather' in self.args.dataname:
-            metric_list, spatial_norm = ['mse', 'rmse', 'mae'], True
-        else:
-            metric_list, spatial_norm = ['mse', 'mae', 'ssim', 'psnr'], False
-        eval_res, eval_log = metric(preds, trues, self.test_loader.dataset.mean, self.test_loader.dataset.std,
-                                    metrics=metric_list, spatial_norm=spatial_norm)
-        metrics = np.array([eval_res['mae'], eval_res['mse']])
+        # if 'weather' in self.args.dataname:
+        #     metric_list, spatial_norm = ['mse', 'rmse', 'mae'], True
+        # else:
+        #     metric_list, spatial_norm = ['mse', 'mae', 'ssim', 'psnr'], False
+        # eval_res, eval_log = metric(preds, trues, self.test_loader.dataset.mean, self.test_loader.dataset.std,
+        #                             metrics=metric_list, spatial_norm=spatial_norm)
+        # metrics = np.array([eval_res['mae'], eval_res['mse']])
 
-        if self._rank == 0:
-            print_log(eval_log)
-            folder_path = osp.join(self.path, 'saved')
-            check_dir(folder_path)
+        # if self._rank == 0:
+        #     print_log(eval_log)
+        #     folder_path = osp.join(self.path, 'saved')
+        #     check_dir(folder_path)
 
-            for np_data in ['metrics', 'inputs', 'trues', 'preds']:
-                np.save(osp.join(folder_path, np_data + '.npy'), vars()[np_data])
+        #     for np_data in ['metrics', 'inputs', 'trues', 'preds']:
+        #         np.save(osp.join(folder_path, np_data + '.npy'), vars()[np_data])
 
-        return eval_res['mse']
+        # return eval_res['mse']
