@@ -113,5 +113,5 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
                                     pin_memory=True, drop_last=True,
                                     num_workers=num_workers, distributed=distributed)
 
-    return dataloader_train, dataloader_vali, dataloader_test
+    return dataloader_train, dataloader_vali, dataloader_vali
 

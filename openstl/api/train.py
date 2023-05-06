@@ -326,10 +326,21 @@ class BaseExperiment(object):
         model = self.method.model
         self.call_hook('before_val_epoch')
         inputs, preds, trues = self.method.test_one_epoch(self, self.test_loader)
-        preds = preds[:, -1, :, :, :]
+        # preds = preds[:, -1, :, :, :]
+        # print('pred shape:', preds.shape)
+        # with open(f'pred_hidden.npy', 'wb') as f:
+        #     np.save(f, preds)
+
+        preds = preds[:20, :, :, :, :]
+        trues = trues[:20, :, :, :, :]
+        inputs = inputs[:20, :, :, :, :]
         print('pred shape:', preds.shape)
-        with open(f'pred_hidden.npy', 'wb') as f:
+        with open(f'pred_val.npy', 'wb') as f:
             np.save(f, preds)
+        with open(f'true_val.npy', 'wb') as f:
+            np.save(f, trues)
+        with open(f'input_val.npy', 'wb') as f:
+            np.save(f, inputs)
 
             # with open(f'val2/true_{i}.npy', 'wb') as f:
             #     print(trues_batch.shape)
